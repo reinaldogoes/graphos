@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/crgimenes/graphos/coreScreen"
+	"github.com/crgimenes/graphos/coreGame"
 )
 
 var (
@@ -18,8 +18,8 @@ func update(screen *coreScreen.Instance) error {
 func main() {
 	rand.Seed(time.Now().Unix())
 
-	cs = coreScreen.Get()
-	cs.Update = update
+	cs = coreGame.Get()
+	cs.ScreenHandler = update
 	cs.Title = "Minimum Spanning Tree (Prim's Algorithm)"
 	cs.CurrentColor = 0x9
 

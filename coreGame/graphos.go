@@ -1,4 +1,4 @@
-package coreGraphos
+package coreGame
 
 import "math"
 
@@ -8,7 +8,7 @@ func Distance(x1, y1, x2, y2 int) int {
 	return int(math.Sqrt(first + second))
 }
 
-func bLine(x1, y1, x2, y2 int) {
+func (p *Instance) Line(x1, y1, x2, y2 int) {
 	var x, y, dx, dy, dx1, dy1, px, py, xe, ye, i int
 	dx = x2 - x1
 	dy = y2 - y1
@@ -35,7 +35,7 @@ func bLine(x1, y1, x2, y2 int) {
 			y = y2
 			xe = x1
 		}
-		drawPix(x, y, 0xf)
+		p.DrawPix(x, y)
 		for i = 0; x < xe; i++ {
 			x = x + 1
 			if px < 0 {
@@ -48,7 +48,7 @@ func bLine(x1, y1, x2, y2 int) {
 				}
 				px = px + 2*(dy1-dx1)
 			}
-			drawPix(x, y, 0xf)
+			p.DrawPix(x, y)
 		}
 	} else {
 		if dy >= 0 {
@@ -60,7 +60,7 @@ func bLine(x1, y1, x2, y2 int) {
 			y = y2
 			ye = y1
 		}
-		drawPix(x, y, 0xf)
+		p.DrawPix(x, y)
 		for i = 0; y < ye; i++ {
 			y = y + 1
 			if py <= 0 {
@@ -73,36 +73,36 @@ func bLine(x1, y1, x2, y2 int) {
 				}
 				py = py + 2*(dx1-dy1)
 			}
-			drawPix(x, y, 0xf)
+			p.DrawPix(x, y)
 		}
 	}
 }
 
-func bBox(x1, y1, x2, y2 int) {
+func (p *Instance) Box(x1, y1, x2, y2 int) {
 	for y := y1; y <= y2; y++ {
-		drawPix(x1, y, 0xf)
-		drawPix(x2, y, 0xf)
+		p.DrawPix(x1, y)
+		p.DrawPix(x2, y)
 	}
 	for x := x1; x <= x2; x++ {
-		drawPix(x, y1, 0xf)
-		drawPix(x, y2, 0xf)
+		p.DrawPix(x, y1)
+		p.DrawPix(x, y2)
 	}
 }
 
-func bCircle(x0, y0, radius int) {
+func (p *Instance) Circle(x0, y0, radius int) {
 	x := radius
 	y := 0
 	e := 0
 
 	for x >= y {
-		drawPix(x0+x, y0+y, 0xf)
-		drawPix(x0+y, y0+x, 0xf)
-		drawPix(x0-y, y0+x, 0xf)
-		drawPix(x0-x, y0+y, 0xf)
-		drawPix(x0-x, y0-y, 0xf)
-		drawPix(x0-y, y0-x, 0xf)
-		drawPix(x0+y, y0-x, 0xf)
-		drawPix(x0+x, y0-y, 0xf)
+		p.DrawPix(x0+x, y0+y)
+		p.DrawPix(x0+y, y0+x)
+		p.DrawPix(x0-y, y0+x)
+		p.DrawPix(x0-x, y0+y)
+		p.DrawPix(x0-x, y0-y)
+		p.DrawPix(x0-y, y0-x)
+		p.DrawPix(x0+y, y0-x)
+		p.DrawPix(x0+x, y0-y)
 
 		if e <= 0 {
 			y += 1
@@ -115,7 +115,7 @@ func bCircle(x0, y0, radius int) {
 	}
 }
 
-func bFilledCircle(x0, y0, radius int) {
+func (p *Instance) FilledCircle(x0, y0, radius int) {
 	x := radius
 	y := 0
 	xChange := 1 - (radius << 1)
@@ -124,12 +124,12 @@ func bFilledCircle(x0, y0, radius int) {
 
 	for x >= y {
 		for i := x0 - x; i <= x0+x; i++ {
-			drawPix(i, y0+y, 0xf)
-			drawPix(i, y0-y, 0xf)
+			p.DrawPix(i, y0+y)
+			p.DrawPix(i, y0-y)
 		}
 		for i := x0 - y; i <= x0+y; i++ {
-			drawPix(i, y0+x, 0xf)
-			drawPix(i, y0-x, 0xf)
+			p.DrawPix(i, y0+x)
+			p.DrawPix(i, y0-x)
 		}
 
 		y++
@@ -143,25 +143,27 @@ func bFilledCircle(x0, y0, radius int) {
 	}
 }
 
-func drawChar(index, fgColor, bgColor byte, x, y int) {
+func (p *Instance) DrawChar(index, fgColor, bgColor byte, x, y int) {
 	var a, b uint64
 	for a = 0; a < 8; a++ {
 		for b = 0; b < 8; b++ {
 			if font.Bitmap[index][b]&(0x80>>a) != 0 {
-				drawPix(int(a)+x, int(b)+y, fgColor)
+				p.CurrentColor = fgColor
+				p.DrawPix(int(a)+x, int(b)+y)
 			} else {
-				drawPix(int(a)+x, int(b)+y, bgColor)
+				p.CurrentColor = bgColor
+				p.DrawPix(int(a)+x, int(b)+y)
 			}
 		}
 	}
 }
 
-func drawCursor(index, fgColor, bgColor byte, x, y int) {
+func (p *Instance) DrawCursor(index, fgColor, bgColor byte, x, y int) {
 	if cursorSetBlink {
 		if cursorBlinkTimer < 15 {
-			drawChar(index, fgColor, bgColor, x, y)
+			p.DrawChar(index, fgColor, bgColor, x, y)
 		} else {
-			drawChar(index, bgColor, fgColor, x, y)
+			p.DrawChar(index, bgColor, fgColor, x, y)
 		}
 		cursorBlinkTimer++
 		if cursorBlinkTimer > 30 {

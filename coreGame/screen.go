@@ -1,4 +1,4 @@
-package coreScreen
+package coreGame
 
 import (
 	"image"
@@ -8,17 +8,17 @@ import (
 )
 
 type Instance struct {
-	Border       int
-	Height       int
-	Width        int
-	Scale        float64
-	CurrentColor byte
-	uTime        int
-	updateScreen bool
-	tmpScreen    *ebiten.Image
-	img          *image.RGBA
-	Update       func(*Instance) error
-	Title        string
+	Border        int
+	Height        int
+	Width         int
+	Scale         float64
+	CurrentColor  byte
+	uTime         int
+	updateScreen  bool
+	tmpScreen     *ebiten.Image
+	img           *image.RGBA
+	ScreenHandler func(*Instance) error
+	Title         string
 }
 
 var cs *Instance = nil // Current Instance
@@ -64,8 +64,8 @@ func MergeColorCode(b, f byte) byte {
 
 func update(screen *ebiten.Image) error {
 
-	if cs.Update != nil {
-		err := cs.Update(cs)
+	if cs.ScreenHandler != nil {
+		err := cs.ScreenHandler(cs)
 		if err != nil {
 			return err
 		}
