@@ -4,6 +4,7 @@ import (
 	"image"
 	"log"
 
+	"github.com/crgimenes/graphos/coreGame/fonts"
 	"github.com/hajimehoshi/ebiten"
 )
 
@@ -19,6 +20,11 @@ type Instance struct {
 	img           *image.RGBA
 	ScreenHandler func(*Instance) error
 	Title         string
+	Font          struct {
+		Height int
+		Width  int
+		Bitmap [][]byte
+	}
 }
 
 var cs *Instance = nil // Current Instance
@@ -82,6 +88,13 @@ func update(screen *ebiten.Image) error {
 }
 
 func (p *Instance) Run() {
+
+	{
+		f := fonts.Expert118x8.Load()
+		p.Font.Bitmap = f.Bitmap
+		p.Font.Height = f.Height
+		p.Font.Width = f.Width
+	}
 
 	p.img = image.NewRGBA(image.Rect(0, 0, p.Width, p.Height))
 	p.tmpScreen, _ = ebiten.NewImage(p.Width, p.Height, ebiten.FilterNearest)
