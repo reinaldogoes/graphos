@@ -8,7 +8,7 @@ func Distance(x1, y1, x2, y2 int) int {
 	return int(math.Sqrt(first + second))
 }
 
-func (p *Instance) Line(x1, y1, x2, y2 int) {
+func (p *Instance) DrawLine(x1, y1, x2, y2 int) {
 	var x, y, dx, dy, dx1, dy1, px, py, xe, ye, i int
 	dx = x2 - x1
 	dy = y2 - y1
@@ -115,7 +115,7 @@ func (p *Instance) Circle(x0, y0, radius int) {
 	}
 }
 
-func (p *Instance) FilledCircle(x0, y0, radius int) {
+func (p *Instance) DrawFilledCircle(x0, y0, radius int) {
 	x := radius
 	y := 0
 	xChange := 1 - (radius << 1)
@@ -147,47 +147,13 @@ func (p *Instance) DrawChar(index, fgColor, bgColor byte, x, y int) {
 	var a, b uint64
 	for a = 0; a < 8; a++ {
 		for b = 0; b < 8; b++ {
-			if font.Bitmap[index][b]&(0x80>>a) != 0 {
+			if p.Font.Bitmap[index][b]&(0x80>>a) != 0 {
 				p.CurrentColor = fgColor
 				p.DrawPix(int(a)+x, int(b)+y)
 			} else {
 				p.CurrentColor = bgColor
 				p.DrawPix(int(a)+x, int(b)+y)
 			}
-		}
-	}
-}
-
-func (p *Instance) DrawCursor(index, fgColor, bgColor byte, x, y int) {
-	if cursorSetBlink {
-		if cursorBlinkTimer < 15 {
-			p.DrawChar(index, fgColor, bgColor, x, y)
-		} else {
-			p.DrawChar(index, bgColor, fgColor, x, y)
-		}
-		cursorBlinkTimer++
-		if cursorBlinkTimer > 30 {
-			cursorBlinkTimer = 0
-		}
-	} else {
-		drawChar(index, bgColor, fgColor, x, y)
-	}
-}
-
-func drawVideoTextMode() {
-	i := 0
-	for r := 0; r < rows; r++ {
-		for c := 0; c < columns; c++ {
-			color := videoTextMemory[i]
-			f := color & 0x0f
-			b := color & 0xf0 >> 4
-			i++
-			if i-1 == cursor {
-				drawCursor(videoTextMemory[i], f, b, c*8, r*8)
-			} else {
-				drawChar(videoTextMemory[i], f, b, c*8, r*8)
-			}
-			i++
 		}
 	}
 }
