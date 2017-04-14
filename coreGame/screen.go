@@ -27,18 +27,18 @@ type Instance struct {
 	}
 }
 
-var cs *Instance = nil // Current Instance
+var cg *Instance = nil // Current Instance
 
 func Get() *Instance {
-	if cs == nil {
-		cs = &Instance{
+	if cg == nil {
+		cg = &Instance{
 			Scale:  2,
 			Border: 0,
 			Height: 240,
 			Width:  320,
 		}
 	}
-	return cs
+	return cg
 }
 
 var Colors = []struct {
@@ -70,27 +70,28 @@ func MergeColorCode(b, f byte) byte {
 
 func update(screen *ebiten.Image) error {
 
-	if cs.ScreenHandler != nil {
-		err := cs.ScreenHandler(cs)
+	if cg.ScreenHandler != nil {
+		err := cg.ScreenHandler(cg)
 		if err != nil {
 			return err
 		}
 	}
 
-	if cs.updateScreen {
-		cs.tmpScreen.ReplacePixels(cs.img.Pix)
-		cs.updateScreen = false
+	if cg.updateScreen {
+		cg.tmpScreen.ReplacePixels(cg.img.Pix)
+		cg.updateScreen = false
 	}
 
-	screen.DrawImage(cs.tmpScreen, nil)
-	cs.uTime++
+	screen.DrawImage(cg.tmpScreen, nil)
+	cg.uTime++
 	return nil
 }
 
 func (p *Instance) Run() {
 
 	{
-		f := fonts.Expert118x8.Load()
+		var f fonts.Expert118x8
+		f.Load()
 		p.Font.Bitmap = f.Bitmap
 		p.Font.Height = f.Height
 		p.Font.Width = f.Width
@@ -122,7 +123,7 @@ func (p *Instance) DrawPix(x, y int) {
 }
 
 func (p *Instance) Clear() {
-	for i := 0; i < p.Height*cs.Width*4; i += 4 {
+	for i := 0; i < p.Height*p.Width*4; i += 4 {
 		p.img.Pix[i] = Colors[p.CurrentColor].R
 		p.img.Pix[i+1] = Colors[p.CurrentColor].G
 		p.img.Pix[i+2] = Colors[p.CurrentColor].B
