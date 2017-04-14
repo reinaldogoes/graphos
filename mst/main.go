@@ -133,6 +133,12 @@ func main() {
 	rand.Seed(time.Now().Unix())
 
 	cg = coreGame.Get()
+	cg.Width = 800
+	cg.Height = 600
+	cg.Scale = 1
+	cg.ScreenHandler = update
+	cg.Title = "Minimum Spanning Tree - Prim's Algorithm"
+	cg.CurrentColor = 0x0
 
 	for i := 0; i < 60; i++ {
 
@@ -142,11 +148,6 @@ func main() {
 		}
 		dotMain = append(dotMain, d)
 	}
-
-	cg.Scale = 2
-	cg.ScreenHandler = update
-	cg.Title = "Minimum Spanning Tree - Prim's Algorithm"
-	cg.CurrentColor = 0x0
 
 	cg.Run()
 }

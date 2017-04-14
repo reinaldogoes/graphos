@@ -8,72 +8,44 @@ func Distance(x1, y1, x2, y2 int) int {
 	return int(math.Sqrt(first + second))
 }
 
-func (p *Instance) DrawLine(x1, y1, x2, y2 int) {
-	var x, y, dx, dy, dx1, dy1, px, py, xe, ye, i int
-	dx = x2 - x1
-	dy = y2 - y1
-	if dx < 0 {
-		dx1 = -dx
-	} else {
-		dx1 = dx
+func abs(i int) int {
+	if i < 0 {
+		return -i
 	}
+	return i
+}
 
-	if dy < 0 {
-		dy1 = -dy
+func (p *Instance) DrawLine(x0, y0, x1, y1 int) {
+	dx := abs(x1 - x0)
+	dy := abs(y1 - y0)
+	var sx, sy int
+	if x0 < x1 {
+		sx = 1
 	} else {
-		dy1 = dy
+		sx = -1
 	}
-	px = 2*dy1 - dx1
-	py = 2*dx1 - dy1
-	if dy1 <= dx1 {
-		if dx >= 0 {
-			x = x1
-			y = y1
-			xe = x2
-		} else {
-			x = x2
-			y = y2
-			xe = x1
-		}
-		p.DrawPix(x, y)
-		for i = 0; x < xe; i++ {
-			x = x + 1
-			if px < 0 {
-				px = px + 2*dy1
-			} else {
-				if (dx < 0 && dy < 0) || (dx > 0 && dy > 0) {
-					y = y + 1
-				} else {
-					y = y - 1
-				}
-				px = px + 2*(dy1-dx1)
-			}
-			p.DrawPix(x, y)
-		}
+	if y0 < y1 {
+		sy = 1
 	} else {
-		if dy >= 0 {
-			x = x1
-			y = y1
-			ye = y2
-		} else {
-			x = x2
-			y = y2
-			ye = y1
+		sy = -1
+	}
+	err := dx - dy
+
+	var e2 int
+	for {
+		p.DrawPix(x0, y0)
+
+		if x0 == x1 && y0 == y1 {
+			return
 		}
-		p.DrawPix(x, y)
-		for i = 0; y < ye; i++ {
-			y = y + 1
-			if py <= 0 {
-				py = py + 2*dx1
-			} else {
-				if (dx < 0 && dy < 0) || (dx > 0 && dy > 0) {
-					x = x + 1
-				} else {
-					x = x - 1
-				}
-				py = py + 2*(dx1-dy1)
-			}
-			p.DrawPix(x, y)
+		e2 = 2 * err
+		if e2 > -dy {
+			err = err - dy
+			x0 = x0 + sx
+		}
+		if e2 < dx {
+			err = err + dx
+			y0 = y0 + sy
 		}
 	}
 }
