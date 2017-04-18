@@ -24,6 +24,14 @@ var (
 
 var color byte
 
+func getNextColor() byte {
+	color++
+	if color > 15 {
+		color = 1
+	}
+	return color
+}
+
 func update(screen *coreGame.Instance) error {
 
 	screen.CurrentColor = 0
@@ -31,10 +39,6 @@ func update(screen *coreGame.Instance) error {
 	screen.Clear()
 
 	screen.CurrentColor = 0xf
-	color++
-	if color > 15 {
-		color = 0
-	}
 
 	for i := 0; i < len(dotMain); i++ {
 		x := random(1, 5)
@@ -51,29 +55,7 @@ func update(screen *coreGame.Instance) error {
 		}
 	}
 
-	//screen.CurrentColor = 0xf
-
-	for i := 0; i < len(dotMain); i++ {
-		screen.DrawFilledCircle(dotMain[i].X, dotMain[i].Y, 4)
-
-		/*
-			if xAux == 0 {
-				xAux = dotMain[i].X
-				yAux = dotMain[i].Y
-				screen.DrawFilledCircle(dotMain[i].X, dotMain[i].Y, 4)
-			} else {
-				screen.DrawFilledCircle(dotMain[i].X, dotMain[i].Y, 4)
-				screen.DrawLine(xAux, yAux, dotMain[i].X, dotMain[i].Y)
-				xAux = dotMain[i].X
-				yAux = dotMain[i].Y
-			}
-		*/
-
-	}
-
 	// --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
-	//screen.CurrentColor = 0xf
 
 	for i := 0; i < len(dotMain); i++ {
 		if i == 0 {
@@ -107,6 +89,7 @@ func update(screen *coreGame.Instance) error {
 				dotReached[rIndex].X,
 				dotReached[rIndex].Y, 4)
 		*/
+
 		screen.DrawLine(
 			dotReached[rIndex].X,
 			dotReached[rIndex].Y,
@@ -115,6 +98,28 @@ func update(screen *coreGame.Instance) error {
 
 		dotReached = append(dotReached, dotUnreached[uIndex])
 		dotUnreached = RemoveDot(dotUnreached, uIndex)
+
+	}
+
+	// --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+	for i := 0; i < len(dotMain); i++ {
+		screen.CurrentColor = getNextColor()
+
+		screen.DrawFilledCircle(dotMain[i].X, dotMain[i].Y, 4)
+
+		/*
+			if xAux == 0 {
+				xAux = dotMain[i].X
+				yAux = dotMain[i].Y
+				screen.DrawFilledCircle(dotMain[i].X, dotMain[i].Y, 4)
+			} else {
+				screen.DrawFilledCircle(dotMain[i].X, dotMain[i].Y, 4)
+				screen.DrawLine(xAux, yAux, dotMain[i].X, dotMain[i].Y)
+				xAux = dotMain[i].X
+				yAux = dotMain[i].Y
+			}
+		*/
 
 	}
 	dotReached = nil
