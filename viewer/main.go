@@ -192,8 +192,13 @@ func telemetryWs(conn *websocket.Conn) {
 			if len(msgArray) < 2 {
 				log.Println("error: no subscribe parameter")
 			}
-			clientList[conn].Subscriptions[msgArray[1]] = true
-			log.Println("client subscribe", msgArray[1])
+
+			if _, ok := handleList[msgArray[1]]; ok {
+				clientList[conn].Subscriptions[msgArray[1]] = true
+				log.Println("client subscribed", msgArray[1])
+			} else {
+				fmt.Println("Client is already subscribed")
+			}
 		case "unsubscribe":
 			if len(msgArray) < 2 {
 				log.Println("error: no unsubscribe parameter")
