@@ -8,9 +8,8 @@ import (
 )
 
 type walker struct {
-	X       int
-	Y       int
-	lastDir int
+	X int
+	Y int
 }
 
 var (
@@ -42,13 +41,8 @@ func update(screen *coreGame.Instance) error {
 		case 4:
 			walkers[i].Y--
 		}
-	}
 
-	// --=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
-	for i := 0; i < len(walkers); i++ {
 		screen.CurrentColor = getNextColor()
-		//screen.DrawFilledCircle(walkers[i].X, walkers[i].Y, 1)
 		screen.DrawPix(walkers[i].X, walkers[i].Y)
 	}
 	return nil
@@ -69,7 +63,7 @@ func main() {
 	cg.Title = "Random Walker"
 	cg.CurrentColor = 0x0
 
-	for i := 0; i < 60; i++ {
+	for i := 0; i < 10; i++ {
 		w := walker{
 			X: random(10, cg.Width-10),
 			Y: random(10, cg.Height-10),
