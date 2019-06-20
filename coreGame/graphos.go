@@ -122,10 +122,10 @@ func (p *Instance) DrawChar(index, fgColor, bgColor byte, x, y int) {
 			if p.Font.Bitmap[index][b]&(0x80>>a) != 0 {
 				p.CurrentColor = fgColor
 				p.DrawPix(int(a)+x, int(b)+y)
-			} else {
-				p.CurrentColor = bgColor
-				p.DrawPix(int(a)+x, int(b)+y)
+				continue
 			}
+			p.CurrentColor = bgColor
+			p.DrawPix(int(a)+x, int(b)+y)
 		}
 	}
 }
