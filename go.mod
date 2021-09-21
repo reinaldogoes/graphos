@@ -1,5 +1,3 @@
-module github.com/crgimenes/graphos
+module github.com/go-br/graphos
 
-go 1.12
-
-require github.com/hajimehoshi/ebiten v1.9.3
+go 1.17

@@ -1,10 +1,10 @@
-package coreGame
+package graphos
 
 import (
 	"image"
 	"log"
 
-	"github.com/crgimenes/graphos/coreGame/fonts"
+	"github.com/crgimenes/graphos/fonts"
 	"github.com/hajimehoshi/ebiten"
 )
 

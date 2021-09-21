@@ -1,4 +1,4 @@
-package coreGame
+package graphos
 
 import "math"
 

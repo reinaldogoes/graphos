@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/crgimenes/graphos/coreGame"
+	"github.com/crgimenes/graphos"
 )
 
 type walker struct {
@@ -13,7 +13,7 @@ type walker struct {
 }
 
 var (
-	cg      *coreGame.Instance
+	cg      *graphos.Instance
 	walkers []walker
 )
 
@@ -27,7 +27,7 @@ func getNextColor() byte {
 	return color
 }
 
-func update(screen *coreGame.Instance) error {
+func update(screen *graphos.Instance) error {
 
 	for i := 0; i < len(walkers); i++ {
 		x := random(1, 5)
@@ -55,7 +55,7 @@ func random(min, max int) int {
 func main() {
 	rand.Seed(time.Now().Unix())
 
-	cg = coreGame.Get()
+	cg = graphos.Get()
 	cg.Width = 800
 	cg.Height = 600
 	cg.Scale = 1

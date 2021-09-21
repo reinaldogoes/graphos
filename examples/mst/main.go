@@ -4,7 +4,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/crgimenes/graphos/coreGame"
+	"github.com/crgimenes/graphos"
 )
 
 type dot struct {
@@ -13,7 +13,7 @@ type dot struct {
 }
 
 var (
-	cg *coreGame.Instance
+	cg *graphos.Instance
 
 	xAux, yAux int
 
@@ -32,7 +32,7 @@ func getNextColor() byte {
 	return color
 }
 
-func update(screen *coreGame.Instance) error {
+func update(screen *graphos.Instance) error {
 
 	screen.CurrentColor = 0
 
@@ -75,7 +75,7 @@ func update(screen *coreGame.Instance) error {
 				r1 := dotReached[r]
 				u1 := dotUnreached[u]
 
-				d := coreGame.Distance(r1.X, r1.Y, u1.X, u1.Y)
+				d := graphos.Distance(r1.X, r1.Y, u1.X, u1.Y)
 				if d < record {
 					record = d
 					uIndex = u
@@ -137,7 +137,7 @@ func random(min, max int) int {
 func main() {
 	rand.Seed(time.Now().Unix())
 
-	cg = coreGame.Get()
+	cg = graphos.Get()
 	cg.Width = 800
 	cg.Height = 600
 	cg.Scale = 1
