@@ -3,7 +3,7 @@ module github.com/go-br/graphos
 go 1.20
 
 require (
-	github.com/crgimenes/graphos v0.0.0-20211022184937-bd10bbc50d3a
+	github.com/crgimenes/graphos v0.0.0-20230205025216-b8ec5f2c1677
 	github.com/hajimehoshi/ebiten v1.12.12
 )
 

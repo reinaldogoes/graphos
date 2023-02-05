@@ -1,6 +1,8 @@
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/crgimenes/graphos v0.0.0-20211022184937-bd10bbc50d3a h1:LeU8R5hKum1Wf5e6uLC6TvyqwyyMi0Y6iKlbNbY+bgc=
 github.com/crgimenes/graphos v0.0.0-20211022184937-bd10bbc50d3a/go.mod h1:9VdxNTdOdgmR9u79vGEbzha9IbvnNAQAtGVkSXvDeqY=
+github.com/crgimenes/graphos v0.0.0-20230205025216-b8ec5f2c1677 h1:tg15zMLk13O1TKO/W1R0d0COV5a1bPWbf+IW+SPqdmA=
+github.com/crgimenes/graphos v0.0.0-20230205025216-b8ec5f2c1677/go.mod h1:rU+JL8i8Sr+oGBxpzf7hBkxuKbvgzkZDM3EQXqea2pI=
 github.com/ebitengine/purego v0.0.0-20220905075623-aeed57cda744/go.mod h1:Eh8I3yvknDYZeCuXH9kRNaPuHEwvXDCk378o9xszmHg=
 github.com/ebitengine/purego v0.1.1 h1:HI8nW+LniW9Yb34k34jBs8nz+PNzsw68o7JF8jWFHHE=
 github.com/ebitengine/purego v0.1.1/go.mod h1:Eh8I3yvknDYZeCuXH9kRNaPuHEwvXDCk378o9xszmHg=
